@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class CustomUserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceCustomImpl implements UserDetailsService {
     // Repository used to load the user from the database
     private final UserRepository userRepository;
 
