@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class UserCustomRepositoryImpl implements UserCustomRepository{
+public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     public EntityManager entityManager;
 
     @Override

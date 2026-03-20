@@ -25,6 +25,7 @@ public class PurchaseOrderController {
         this.purchaseOrderMapper = purchaseOrderMapper;
     }
 
+    //Admin section
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/purchase_orders")
     public ResponseEntity<List<PurchaseOrderDto>> getAllPurchaseOrders() {
@@ -49,6 +50,20 @@ public class PurchaseOrderController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/purchase_order/total_price/{customerId}")
+    public ResponseEntity<Double> getTotalPrice(@PathVariable Integer customerId) {
+        return ResponseEntity.ok(purchaseOrderService.getTotalPriceByCustomerId(customerId));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/purchase_order/set_paid/{orderId}")
+    public ResponseEntity<Void> setPaid(@PathVariable Integer orderId) {
+        purchaseOrderService.setPaid(orderId);
+        return ResponseEntity.noContent().build();
+    }
+
+    //User section
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping("/purchase_order/{bookId}/{customerId}")
     public ResponseEntity<PurchaseOrderDto> createOrder(@PathVariable Integer bookId,
@@ -81,18 +96,5 @@ public class PurchaseOrderController {
     @GetMapping("/purchase_order/total_price")
     public ResponseEntity<Double> getTotalPrice(Authentication auth) {
         return ResponseEntity.ok(purchaseOrderService.getTotalPriceByUsername(auth.getName()));
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/purchase_order/total_price/{customerId}")
-    public ResponseEntity<Double> getTotalPrice(@PathVariable Integer customerId) {
-        return ResponseEntity.ok(purchaseOrderService.getTotalPriceByCustomerId(customerId));
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/purchase_order/set_paid/{orderId}")
-    public ResponseEntity<Void> setPaid(@PathVariable Integer orderId) {
-        purchaseOrderService.setPaid(orderId);
-        return ResponseEntity.noContent().build();
     }
 }
